@@ -1,0 +1,77 @@
+<br>
+
+<div class="container">
+    <h3>Add User</h3>
+    <br>
+  <div *ngIf="submitErr" class="alert alert-danger">
+    {{submitErr}}
+  </div>
+  <div *ngIf="submitStatus" class="alert alert-info">
+      {{submitStatus}}
+    </div>
+  <form class="form-horizontal flex" (ngSubmit)="f.form.valid && AddUpdateUser()" #f="ngForm">
+    <div class="form-group row">
+      <label class="control-label col-sm-2" for="fname">First Name:</label>
+      <input type="text" class="form-control col-sm-5" id="fname" name="fname"  [(ngModel)]="user.FirstName" #FirstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && FirstName.invalid }" required>
+      <div *ngIf="f.submitted && FirstName.invalid" class="invalid-feedback">
+        <div *ngIf="FirstName.errors.required">First Name is required</div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="control-label col-sm-2" for="lname">Last Name:</label>
+      <input type="text" class="form-control col-sm-5" id="lname" name="lname"  [(ngModel)]="user.LastName" #LastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && LastName.invalid }" required>
+      <div *ngIf="f.submitted && LastName.invalid" class="invalid-feedback">
+        <div *ngIf="LastName.errors.required">Last Name is required</div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="control-label col-sm-2" for="eid">Employee ID:</label>
+      <input type="text" class="form-control col-sm-3" id="eid" name="eid" [(ngModel)]="user.Employee_ID" #eid="ngModel" [ngClass]="{ 'is-invalid': f.submitted && eid.invalid }" required>
+      <div *ngIf="f.submitted && eid.invalid" class="invalid-feedback">
+        <div *ngIf="eid.errors.required">Employee ID is required</div>
+      </div>
+
+    </div>
+    <div class="form-group float-sm-right">
+      <button type="submit" class="btn defaultbutton m-2">{{buttoncaption}}</button>
+      <button type="reset" class="btn  defaultbutton m-2" flex="25" (click)='Reset()'>Reset</button>
+    </div>
+  </form>
+</div>
+<br>
+<br>
+<div>
+  <hr class="mainseparator">
+</div>
+
+<div class="container">
+  <form class="form-horizontal">
+    <div class="row">
+      <input type="text" class="form-control col-sm-3 m-2" id="lsearch" name="term" placeholder="Search..." [(ngModel)]="term">
+      <label class=" cenallign m-2">Sort:</label>
+      <button class="btn btn-outline-info col-sm-3 m-2" (click)="SortByFirstName()">First Name</button>
+      <button class="btn btn-outline-info col-sm-3 m-2" (click)="SortByLastName()">Last Name</button>
+      <button class="btn btn-outline-info col-sm-1 m-2" (click)="SortById()">Id</button>
+    </div>
+
+    <div *ngFor="let usr of users | filter: term | orderBy: sortBy">
+      <hr style="border-top:dotted 1px; color:black">
+      <div class="row">
+        <label class="greylabel col-sm-8" id="lfname">First Name :<b>{{usr.FirstName}}</b> </label>
+        <div class="btn btn-info align-self-end ml-auto col-sm-2" (click)="EditUser(usr.Employee_ID)">Edit</div>
+      </div>
+      <br>
+      <div class="row">
+        <label class="col-sm-8 greylabel" id="lnname">Last Name:<b> {{usr.LastName}}</b></label>
+        <div class="btn btn-warning align-self-end ml-auto col-sm-2" (click)="DeleteUser(usr.User_ID)">Delete</div>
+      </div>
+      <br>
+      <div class="row">
+        <label class="col-sm-4 greylabel" id="lid">Employee ID:<b> {{usr.Employee_ID}}</b></label>
+      </div>
+    </div>
+  </form>
+  <hr class=".dottedline">
+</div>

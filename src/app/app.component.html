@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+  <div class="col-md-12 pull-left jumbotron p20"><h3>Project Manager</h3></div>
+  <div class=" topnav "  id="myTopnav">
+
+      <nav class="navbar p0">
+          <a  class = "not-current p-2 ml0" routerLink="/project" [routerLinkActive]="'is-active'">Add Project</a>
+    
+          <a  class = "not-current p-2" routerLink="/addtask" [routerLinkActive]="'is-active'">Add Task</a>
+          <a  class = "not-current p-2" routerLink="/user" [routerLinkActive]="'is-active'" >Add User</a>
+          <a  class = "not-current p-2" routerLink="/"  [routerLinkActive]="'is-active'" [routerLinkActiveOptions]="{exact:true}" >View Task</a>
+
+        </nav>
+
+  </div>
+</div>
+  <div class="row" >
+    <div class="panel-body1">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>

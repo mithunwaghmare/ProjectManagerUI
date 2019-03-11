@@ -1,0 +1,94 @@
+.rightallign{
+    text-align:right;
+}
+.cenallign{
+    vertical-align: bottom;
+    padding-left: 0%
+}
+.checkboxes input
+{
+    vertical-align: bottom;
+}
+.labelnomargin{
+    margin: 0%;
+    padding: 0%;
+    border: 0%;
+}
+.nomargin{
+    margin:0%;
+}
+.defaultbutton{
+    width:150px;
+}
+.mainseparator{
+    display:block;
+    border-color:blue;
+    width: 100%;
+}
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;   
+    background: #424447;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+
+}
+.greyback {
+    background: rgb(238, 234, 234);
+}
+.greylabel {
+    background-color:rgb(238, 234, 234);
+    margin-right: 5px;
+    
+    text-align: left;
+    vertical-align: middle;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+}
+.validation{
+    color: red;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    background:grey;
+    cursor: pointer;
+    border-color: black;
+    border-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background:grey;
+    cursor: pointer;
+    border-color: black;
+    border:solid;
+}
+/*input[type="date"]:before{
+    content:attr(placeholder) !important;
+    color:#aaa;
+    margin-right: 0.5em;
+    }
+    input[type="date"]:focus:before,
+    input[type="date"]:valid:before{
+        content:"";
+       
+    }
+*/
+.pl10
+{
+    padding-left: 10px;
+
+}

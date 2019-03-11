@@ -1,0 +1,39 @@
+.borderless td, .borderless th {
+    border: none;
+}
+.greylabel {
+    background-color:lightgray;
+    margin-right: 5%;
+    margin-left: 5%;
+    
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.panel-body{
+    background: aliceblue;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    padding: 0;
+    height: auto !important;
+}
+.p10
+{
+    padding: 10px;
+}
+.mt20 {
+    margin-top: 20px;
+}
+.viewtsktable th {
+    text-align: center;
+}
+.btn-primary.disabled, .btn-primary:disabled,
+.btn-danger.disabled, .btn-danger:disabled {  
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.table-hover tbody tr:hover {
+    background-color: aliceblue;
+}

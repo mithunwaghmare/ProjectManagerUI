@@ -1,0 +1,128 @@
+
+<div class=" panel-body p10">
+  <div class="container">
+      <h3>Add Project</h3>
+    <br>
+    <div *ngIf="submitErr" class="alert alert-danger">
+      {{submitErr}}
+    </div>
+    <div *ngIf="submitStatus" class="alert alert-info">
+        {{submitStatus}}
+      </div>
+    <form class="form-horizontal flex" (ngSubmit)="f.form.valid && AddUpdateProject()" #f="ngForm">
+      <div class="form-group row">
+        <label class="control-label col-sm-2 m-2" for="pname">Project :</label>
+        <input type="text" class="form-control col-sm-5 m-2" id="pname" name="pname"  [(ngModel)]="project.ProjectName" #pname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && pname.invalid }" required>
+        <div *ngIf="f.submitted && pname.invalid" class="invalid-feedback">
+            <div *ngIf="pname.errors.required">Project Name is required</div>
+        </div>
+
+      </div>
+      <div class="form-group row">
+        <label class="control-label col-sm-2 m-2">Set Start and End Date</label>
+        <div class="m-2">
+          <input type="checkbox" id="setDate" name="setDate" [(ngModel)]="setDate">
+        </div>
+        <input type="date" class="form-control col-sm-3 m-2" id="sdate" name="sdate" placeholder="Start Date" [disabled] = "!setDate" [ngModel]="project.StartDate | date: 'yyyy-MM-dd'" (ngModelChange)="project.StartDate = $event" #sdate="ngModel" [ngClass]="{ 'is-invalid': f.submitted && sdate.invalid }" required>
+        <div *ngIf="f.submitted && sdate.invalid" class="invalid-feedback">
+            <div *ngIf="sdate.errors.required">Start Date is required</div>
+        </div>
+        <input type="date" class="form-control col-sm-3 m-2 float-sm-right" id="edate" name="edate" placeholder="End Date" [disabled] = "!setDate" [ngModel]="project.EndDate | date: 'yyyy-MM-dd'" (ngModelChange)="project.EndDate = $event" [ngClass]="{ 'is-invalid': f.submitted && dateValidation }">
+        <div *ngIf="f.submitted && dateValidation" class="invalid-feedback">
+            <div>End Date Should be less than StartDate</div>
+        </div>
+
+      </div>
+      <div class="form-group row">
+        <label class="control-label col-sm-2 m-2" for="Priority">Priority:</label>
+        <div class="col-sm-6 m-2 p0">
+          <label for="Priority" class="labelnomargin">0</label>
+          <label for="Priority" class="float-right labelnomargin">30</label>
+          <input type="range" class="form-control slider" id="Priority" name="Priority" min="0" max="30" [(ngModel)]="project.Priority">
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <label class="control-label col-sm-2 m-2" for="eid">Manager:</label>
+        <input type="text" class="form-control col-sm-3 m-2" id="mid" name="mid" disabled  [(ngModel)]="project.managerDetails" #mid="ngModel" [ngClass]="{ 'is-invalid': f.submitted && (mid.invalid || managerValidation)}" required>
+        <button type="button" class="btn col-sm-2 m-2" data-toggle = "modal" data-target = "#myModal"  (click)="SearchUser()">Search</button>
+        <div *ngIf="f.submitted && (mid.invalid || managerValidation)" class="invalid-feedback">
+            <div>Manager is required</div>
+        </div>
+      </div>
+      <div class="form-group float-sm-right">
+        <button type="submit" class="btn defaultbutton m-2">{{buttoncaption}}</button>
+        <button type="button" class="btn defaultbutton m-2" (click)='Reset()'>Reset</button>
+      </div>
+    </form>
+    <br>
+    <br>
+  </div>
+
+  </div>
+  
+
+<div>
+  <hr class="mainseparator">
+</div>
+<div class="container mt20">
+  <form class="form-horizontal flex">
+    <div class="form-group row">
+      <input type="text" class="form-control col-sm-2 m-2" placeholder="Search..." name="term" [(ngModel)]="term">
+      <label class=" cenallign col-sm-1 m-2">Sort By:</label>
+      <button class="btn btn-info m-2" (click)="SortByStartDate()">Start Date</button>
+      <button class="btn btn-info m-2" (click)="SortByEndDate()">End Date</button>
+      <button class="btn btn-info m-2 " (click)="SortByPriority()">Priority</button>
+      <button class="btn btn-info m-2 " *ngIf="!showOpenProject" (click)="GetCompletedProject()">Show Completed</button>
+      <button class="btn btn-info m-2 " *ngIf="showOpenProject" (click)="GetOpenProject()">Show Open</button>
+    </div>
+  </form>
+
+
+
+  <div class="project-main" *ngFor="let pjt of projects | filter: term | orderBy: sortby">
+    <div class = "col-sm-12 row">
+  <div class=" col-sm-7">
+    <div class="row">
+      <label class=" col-sm-6" id="lpname"> Project: <b> {{pjt.ProjectName}} </b></label>
+    </div>
+    <div class="row">
+      <label class="col-sm-6 " id="lnumtask">No. of Tasks: <b> {{pjt.noofTasks}} </b></label> <!-- Fix me-->
+      <label class="col-sm-6 " id="lissuspend">No. of Completed Tasks: <b> {{pjt.noofCompletedTasks}} </b></label>
+    </div>
+    <div class="row">
+      <label class="col-sm-6 " id="lstdate">Start Date: <b> {{pjt.StartDate | date : 'shortDate'}} </b></label>
+      <label class="col-sm-6 " id="lenddate">End Date: <b> {{pjt.EndDate | date : 'shortDate'}} </b></label>
+    </div>
+  </div>
+
+  <div class=" col-sm-1">
+      <label class=" col-sm-12" id="lpriority"> Priority</label>
+      <div class="">       
+      <br>
+        <label id="lpriorityval"><b> {{pjt.Priority}} </b></label>
+      </div>
+   </div>
+
+   <div class="col-sm-4 text-right">
+      <button type="submit" class="btn btn-primary defaultbutton m-2" (click)='EditProject(pjt.Project_ID)'>Update</button>
+      <button type="button" class="btn btn-danger defaultbutton m-2" flex="25" *ngIf="!pjt.IsSuspended" (click)='SuspendProject(pjt)'>Suspend</button>
+      <button type="button" class="btn btn-danger defaultbutton m-2" flex="25" *ngIf="pjt.IsSuspended" disabled >Suspended</button>
+    </div>
+  </div>
+  
+  </div>
+
+
+</div>
+
+<ngx-smart-modal #myModal identifier="myModal">
+  <h3>Select the Project Manager</h3>
+  <input type="text" class="form-control col-sm-5 m-2" placeholder="Search..." name="term" [(ngModel)]="term">
+  <ul id="grouplist" class="list-group">
+    <li class="list-group-item" [ngClass] = "{'active':selectedUsr ==usr}" (click)="ListClick($event,usr)"   *ngFor="let usr of users | filter: term">{{usr.EmployeeId}} - {{usr.FirstName}} {{usr.LastName}}</li>
+  </ul>
+  <br>
+  <button (click)="SelectUser()">Select</button>
+
+</ngx-smart-modal>

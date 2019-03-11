@@ -1,0 +1,62 @@
+
+<div class="">
+  <div class=" panel-body p10">
+  <h3>View Task</h3>
+  <div class="form-group row">
+    <div class="col-sm-5">
+      <input type="text" class="form-control m-1" id="project" name="project" placeholder="Search Project.." disabled  [(ngModel)]="selectedProjectName">
+    </div>
+    
+    <button type="button" class="btn m-1" data-toggle = "modal" data-target = "#pjtModal" (click)="SearchProject()">Find</button>
+    <button type="button" class="btn m-1" (click)="Reset()">Reset</button>
+    <input type="text" class="form-control col-sm-3 m-2" placeholder="Search Task..." name="term" [(ngModel)]="term">
+  </div>
+  <div class="form-group ">
+      
+      <label class=" cenallign m-2">Sort Task By:</label>
+      <button class="btn btn-info m-2" (click)="SortByStartDate()">Start Date</button>
+      <button class="btn btn-info  m-2" (click)="SortByEndDate()">End Date</button>
+      <button class="btn btn-info  m-2" (click)="SortByPriority()">Priority</button>
+      <button class="btn btn-info m-2" (click)="SortByCompleted()">Completed</button>
+  </div>
+
+</div>
+
+
+  <div class="form-group mt20">
+      
+          <table class="table table-striped  table-hover viewtsktable ">
+          <thead>
+            <tr>
+              <th scope="col" style="width:30%">Task</th>
+              <th scope="col"style="width:30%">Parent</th>
+              <th scope="col" style="width:10%">Priority</th>
+              <th scope="col" style="width:10%">Start</th>
+              <th scope="col" style="width:10%">End</th>
+              <th scope="col" colspan="2" >Action</th>
+            </tr>
+          </thead>
+            <tbody>
+           <tr  *ngFor="let task of tasks | filter: term | orderBy : sortBy">
+            <td><div >{{task.TaskName}}</div></td>
+            <td><div >{{task.ParentTaskName}}</div></td>
+            <td><div  *ngIf="!task.IsParentTask" >{{task.Priority}}</div></td>
+            <td>{{task.StartDate | date:'shortDate'}}</td>
+            <td>{{task.EndDate | date:'shortDate'}}</td>
+            <td><button class="btn-primary" style="width:100px" [disabled]="task.EndDate" (click)="EditTask(task.Task_ID)">Edit</button></td>
+            <td><button class="btn-danger" style="width:100px" [disabled]="task.EndDate" (click) ="EndTask(task)">End Task</button></td>
+          </tr>
+          </tbody>
+        </table>
+  </div>
+  <ngx-smart-modal #pjtModal identifier="pjtModal">
+      <h3>Select the Project</h3>
+      <input type="text" class="form-control col-sm-5 m-2" placeholder="Search..." name="term" [(ngModel)]="term">
+      <ul id="grouplist" class="list-group">
+      <li class="list-group-item" [ngClass] = "{'active':selectedPjt ==pjt}" (click)="ClickPjt($event,pjt)"   *ngFor="let pjt of projects | filter: term">{{pjt.ProjectId}} - {{pjt.ProjectName}}</li>
+      </ul>
+      <br>
+      <button (click)="SelectProject()">Select</button>
+    </ngx-smart-modal>
+  <br>
+</div>

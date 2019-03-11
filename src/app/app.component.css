@@ -1,0 +1,72 @@
+/*a:link, a:visited {
+    color: blue;
+  }*/
+  
+  a.not-current{
+      color:black;
+      margin-left: 20px;
+  }
+
+  
+
+a:link, a:visited {
+    color: blue;
+  }
+  
+  a.current:link, a.current:visited {
+    color: white;
+    background-color: blue;
+  }
+  a.color-me{
+      color:black;
+      margin-left: 20px;
+  }
+
+  a.is-active{
+    color:blue;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+/** Custom CSS **/
+.topnav a.not-current.p-2 {
+    margin: 0 8px;
+    border: 3px solid #FEE;
+    padding: 5px;
+    border-radius: 10px;
+    padding: 6px 18px !important;
+    background: aliceblue; 
+}
+.topnav a:hover {
+    color: #0056b3;
+    text-decoration: none;
+}
+.topnav[_ngcontent-c0] a.is-active[_ngcontent-c0] {
+    background: #13752a !important;
+    color: #fff;
+}
+.jumbotron, .panel-body{
+    background: aliceblue;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    padding: 0;
+    height: auto !important;
+}
+.p20
+{
+    padding: 20px 0 0 20px;
+}
+.p0
+{
+    padding-left: 0;
+}
+.ml0 {
+    margin-left: 0 !important;
+}
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #000;
+    background-color: #ddd;
+    border-color: #ddd;
+    opacity: 0.5;
+    cursor: not-allowed;
+}

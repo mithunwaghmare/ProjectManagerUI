@@ -1,0 +1,110 @@
+
+<div class="container  panel-body">
+<h3>Add Task</h3>
+<div *ngIf="submitStatus" class="alert alert-info">
+    {{submitStatus}}
+</div>
+  <br>
+<form class="form-horizontal flex" (ngSubmit)="f.form.valid && AddUpdate()" #f="ngForm">
+    <div class="form-group row">
+      <label class="control-label col-sm-2" for="project">Project:</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="project" name="project" disabled  [(ngModel)]="task.ProjectName" #project="ngModel" [ngClass]="{ 'is-invalid': f.submitted && projectValidation}" required>
+      </div>
+      <button type="button" class="btn btn-outline-btn-default col-sm-2 float-right" data-toggle = "modal" data-target = "#pjtModal" (click)="SearchProject()">Search</button>
+      <div *ngIf="f.submitted && projectValidation" class="validation">
+        <div>Project is required</div>
+      </div>
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-sm-2" for="task">Task:</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" id="taskname" name="taskname" [(ngModel)] = "task.TaskName" #taskname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && (taskname.invalid)}" required>
+        </div>
+        <div *ngIf="f.submitted && taskname.invalid" class="validation">
+          <div *ngIf="taskname.errors.required">Task Name is required</div>
+      </div>
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-sm-2 m-2 pl10">Parent Task</label>
+        <input type="checkbox" class="checkbox cenallign m-2" id="setparent" name="setparent" [(ngModel)]="task.IsParentTask">
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-sm-2" for="Priority">Priority:</label>
+        <div class="col-sm-6">
+          <!-- <input type="text" class="form-control" id="Priority" name="Priority"> -->
+          <label for="Priority"class="labelnomargin">0</label>
+          <label for="Priority" class="float-right labelnomargin" >30</label>
+          <input type="range" class="form-control slider" id="Priority" name="Priority" min="0" max="30" [disabled] = "task.IsParentTask" [(ngModel)] = "task.Priority">        
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-sm-2 pl10" for="ParentTaskName">Parent Task:</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="ParentTaskName" name="ParentTaskName" [(ngModel)]="task.ParentTaskName" disabled>
+        </div>
+        <button type="button" class="btn btn-default col-sm-2 float-right" data-toggle = "modal" data-target = "#parModal"  (click)="SearchParent()" [disabled] = "task.IsParentTask">Search</button>
+      </div>
+      <div class="form-group row">
+          <label class="control-label col-sm-2" for="sdate">Start Date:</label>
+          <div class="col-sm-4">
+            <input type="date" class="form-control" id="sdate" name="sdate" [ngModel] = "task.StartDate | date: 'yyyy-MM-dd'"(ngModelChange)="task.StartDate = $event" #sdate="ngModel" required [ngClass]="{ 'is-invalid': f.submitted && (sdate.invalid)}" [disabled] = "task.IsParentTask">
+            <div *ngIf="f.submitted && sdate.invalid" class="validation">
+              <div *ngIf="sdate.errors.required">Start Date is required</div>
+          </div>
+          </div>
+           <label class="control-label col-sm-2" for="edate">End Date:</label>
+          <div class="col-sm-4">
+            <input type="date" class="form-control" id="edate" name="edate"  [ngModel] = "task.EndDate | date: 'yyyy-MM-dd'" (ngModelChange)="task.EndDate = $event" [ngClass]="{ 'is-invalid': f.submitted && dateValidation }" [disabled] = "task.IsParentTask">
+            <div *ngIf="f.submitted && dateValidation" class="validation">
+              <div>End Date Should be less than StartDate</div>
+          </div>
+          </div>
+       </div>
+       <div class="form-group row">
+          <label class="control-label col-sm-2" for="user">User:</label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" id="user" name="user" [(ngModel)]="task.UserName" disabled>
+          </div>
+          <button type="button" class="btn btn-default col-sm-2 float-right" data-toggle = "modal" data-target = "#usrModal" (click)="SearchUser()" [disabled] = "task.IsParentTask">Search</button>
+        </div>
+        <div class="form-group float-sm-right ">
+          <button type="submit" class="btn defaultbutton m-2" >{{buttonCaption}}</button>
+          <button type="reset" class="btn defaultbutton m-2"  (click)='Cancel()'>Cancel</button>
+        </div>
+        <br><br>
+
+
+</form>
+<br>
+</div>
+<ngx-smart-modal #pjtModal identifier="pjtModal">
+<h3>Select the Project</h3>
+<input type="text" class="form-control col-sm-5 m-2" placeholder="Search..." name="term" [(ngModel)]="term">
+<ul id="grouplist" class="list-group">
+<li class="list-group-item" [ngClass] = "{'active':selectedPjt ==pjt}" (click)="ClickPjt($event,pjt)"   *ngFor="let pjt of projects | filter: term">{{pjt.ProjectId}} - {{pjt.ProjectName}}</li>
+</ul>
+<br>
+<button (click)="SelectProject()">Select</button>
+
+</ngx-smart-modal>
+<ngx-smart-modal #parModal identifier="parModal">
+    <h3>Select the Parent Task</h3>
+    <input type="text" class="form-control col-sm-5 m-2" placeholder="Search..." name="term" [(ngModel)]="term">
+    <ul id="grouplist" class="list-group">
+      <li class="list-group-item" [ngClass] = "{'active':selectedPar ==par}" (click)="ClickPar($event,par)"   *ngFor="let par of parenttask |filter:term">{{par.Parent_ID}} - {{par.ParentTaskName}}</li>
+    </ul>
+    <br>
+    <button (click)="SelectParent()">Select</button>
+</ngx-smart-modal>
+<ngx-smart-modal #usrModal identifier="usrModal">
+    <h3>Select the Owner</h3>
+    <input type="text" class="form-control col-sm-5 m-2" placeholder="Search..." name="term" [(ngModel)]="term">
+    <ul id="grouplist" class="list-group">
+      <li class="list-group-item" [ngClass] = "{'active':selectedUsr ==usr}" (click)="ClickUsr($event,usr)"   *ngFor="let usr of users | filter:term">{{usr.EmployeeId}} - {{usr.FirstName}} {{usr.LastName}}</li>
+    </ul>
+    <br>
+    <button (click)="SelectUser()">Select</button>
+  
+  </ngx-smart-modal>  
+
